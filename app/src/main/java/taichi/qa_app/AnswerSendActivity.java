@@ -91,4 +91,3 @@ public class AnswerSendActivity extends AppCompatActivity implements View.OnClic
     }
 
 }
-メ
