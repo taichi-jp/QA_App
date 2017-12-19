@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
+    private FirebaseUser mUser;
     private ListView mListView;
     private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
@@ -132,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // ログイン済みのユーザーを取得する
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                // ユーザー取得
+                mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                if (user == null) {
+                if (mUser == null) {
                     // ログインしていなければログイン画面に遷移させる
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (mGenre == 99) {
                     // お気に入りの時
+                    mGenreRef = mDatabaseReference.child(Const.FavoritesPATH).child(String.valueOf(mUser.getUid()));
                 } else {
                     mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
                 }
